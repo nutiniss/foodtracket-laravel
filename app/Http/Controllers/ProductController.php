@@ -41,7 +41,7 @@ class ProductController extends Controller
         ]);
 
         $validated['user_id'] = auth()->id();
-        $validated['status'] = 'approved';
+        $validated['status'] = auth()->user()->role === 'admin' ? 'approved' : 'pending';
 
         Product::create($validated);
 
