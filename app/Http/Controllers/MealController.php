@@ -3,64 +3,89 @@
 namespace App\Http\Controllers;
 
 use App\Models\Meal;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MealController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $meals = Meal::where('user_id', Auth::id())
+            ->orderByDesc('meal_date')
+            ->paginate(10);
+
+        return view('meals.index', compact('meals'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('meals.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'meal_date' => ['required', 'date'],
+            'meal_type' => ['required', 'string', 'max:50'],
+            'name' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $validated['user_id'] = Auth::id();
+
+        Meal::create($validated);
+
+        return redirect()
+            ->route('meals.index')
+            ->with('success', 'Posiłek został dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Meal $meal)
     {
-        //
+        if ($meal->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return view('meals.show', compact('meal'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Meal $meal)
     {
-        //
+        if ($meal->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return view('meals.edit', compact('meal'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Meal $meal)
     {
-        //
+        if ($meal->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'meal_date' => ['required', 'date'],
+            'meal_type' => ['required', 'string', 'max:50'],
+            'name' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $meal->update($validated);
+
+        return redirect()
+            ->route('meals.index')
+            ->with('success', 'Posiłek został zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Meal $meal)
     {
-        //
+        if ($meal->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $meal->delete();
+
+        return redirect()
+            ->route('meals.index')
+            ->with('success', 'Posiłek został usunięty.');
     }
 }
