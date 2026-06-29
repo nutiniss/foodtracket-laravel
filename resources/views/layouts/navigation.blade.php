@@ -33,6 +33,9 @@
                     <x-nav-link :href="route('meal-planner.index')" :active="request()->routeIs('meal-planner.*')">
                         {{ __('Planer') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('shopping-lists.index')" :active="request()->routeIs('shopping-lists.*')">
+                        {{ __('Zakupy') }}
+                    </x-nav-link>
                     @if (auth()->user()->role === 'admin')
                         <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
                             {{ __('Admin') }}
@@ -110,6 +113,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('meal-planner.index')" :active="request()->routeIs('meal-planner.*')">
                 {{ __('Planer') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('shopping-lists.index')" :active="request()->routeIs('shopping-lists.*')">
+                {{ __('Zakupy') }}
             </x-responsive-nav-link>
             @if (auth()->user()->role === 'admin')
                 <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.*')">
