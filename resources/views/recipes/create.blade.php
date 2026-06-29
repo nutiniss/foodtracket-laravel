@@ -14,7 +14,7 @@
 
                 <div class="mt-6">
                     <button class="px-4 py-2 bg-blue-600 text-white rounded">
-                        Zapisz
+                        Zapisz i dodaj składniki
                     </button>
 
                     <a href="{{ route('recipes.index') }}" class="ml-2 text-gray-600">

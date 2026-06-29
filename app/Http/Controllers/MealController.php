@@ -36,11 +36,11 @@ class MealController extends Controller
         $validated['is_eaten'] = true;
         $validated['eaten_at'] = now();
 
-        Meal::create($validated);
+        $meal = Meal::create($validated);
 
         return redirect()
-            ->route('meals.index')
-            ->with('success', 'Posiłek został dodany.');
+            ->route('meals.show', $meal)
+            ->with('success', 'Posiłek został dodany. Możesz teraz dodać produkty.');
     }
 
     public function show(Meal $meal)

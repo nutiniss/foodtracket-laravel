@@ -22,11 +22,11 @@ class RecipeItemController extends Controller
 
         $validated['recipe_id'] = $recipe->id;
 
-        RecipeItem::create($validated);
+        $recipe = Recipe::create($validated);
 
         return redirect()
             ->route('recipes.show', $recipe)
-            ->with('success', 'Składnik został dodany do przepisu.');
+            ->with('success', 'Przepis został dodany. Możesz teraz dodać składniki.');
     }
 
     public function destroy(RecipeItem $recipeItem)

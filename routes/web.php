@@ -15,11 +15,15 @@ use App\Http\Controllers\ShoppingListItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        return redirect()->route('daily-summary.index');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('daily-summary.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -69,7 +73,7 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/meal-planner/{meal}/uneaten', [MealPlannerController::class, 'markAsUneaten'])
         ->name('meal-planner.uneaten');
-        
+
     Route::resource('shopping-lists', ShoppingListController::class)
        ->only(['index', 'create', 'store', 'show', 'destroy']);
 
