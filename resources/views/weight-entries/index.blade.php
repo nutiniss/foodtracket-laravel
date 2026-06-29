@@ -13,10 +13,24 @@
                 </div>
             @endif
 
+            
+
             <div class="mb-4">
                 <a href="{{ route('weight-entries.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded">
                     Dodaj pomiar
                 </a>
+            </div>
+
+            <div class="bg-white p-6 shadow-sm sm:rounded-lg mb-6">
+                <h3 class="text-lg font-semibold mb-4">Trend masy ciała</h3>
+
+                @if ($chartEntries->count() >= 2)
+                    <canvas id="weightChart" height="120"></canvas>
+                @else
+                    <p class="text-gray-600">
+                        Dodaj przynajmniej dwa pomiary masy, aby zobaczyć wykres.
+                    </p>
+                @endif
             </div>
 
             <div class="bg-white p-6 shadow-sm sm:rounded-lg">
@@ -64,4 +78,79 @@
             </div>
         </div>
     </div>
+    @if ($chartEntries->count() >= 2)
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const weightData = @json($chartEntries->map(fn ($entry) => [
+                'x' => $entry->entry_date,
+                'y' => (float) $entry->weight,
+            ])->values());
+
+            const targetWeight = @json($targetWeight);
+
+            const datasets = [
+                {
+                    label: 'Masa ciała',
+                    data: weightData,
+                    backgroundColor: '#2563eb',
+                    borderColor: '#2563eb',
+                    showLine: true,
+                    tension: 0.2
+                }
+            ];
+
+            if (targetWeight) {
+                datasets.push({
+                    label: 'Cel masy',
+                    data: weightData.map(point => ({
+                        x: point.x,
+                        y: Number(targetWeight)
+                    })),
+                    borderColor: '#16a34a',
+                    backgroundColor: '#16a34a',
+                    showLine: true,
+                    pointRadius: 0,
+                    borderDash: [6, 6]
+                });
+            }
+
+            new Chart(document.getElementById('weightChart'), {
+                type: 'scatter',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + ' kg';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'category',
+                            title: {
+                                display: true,
+                                text: 'Data'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Masa ciała (kg)'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    @endif
 </x-app-layout>

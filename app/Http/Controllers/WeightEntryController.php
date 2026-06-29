@@ -14,7 +14,17 @@ class WeightEntryController extends Controller
             ->orderByDesc('entry_date')
             ->paginate(10);
 
-        return view('weight-entries.index', compact('weightEntries'));
+        $chartEntries = WeightEntry::where('user_id', Auth::id())
+            ->orderBy('entry_date')
+            ->get();
+
+        $targetWeight = Auth::user()->target_weight;
+
+        return view('weight-entries.index', compact(
+            'weightEntries',
+            'chartEntries',
+            'targetWeight'
+        ));
     }
 
     public function create()
