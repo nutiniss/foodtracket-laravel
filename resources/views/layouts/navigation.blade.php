@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('daily-summary.index')" :active="request()->routeIs('daily-summary.index')">
                         {{ __('Podsumowanie dzienne') }}    
                     </x-nav-link>
+                    <x-nav-link :href="route('weight-entries.index')" :active="request()->routeIs('weight-entries.*')">
+                        {{ __('Masa ciała') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -83,10 +86,13 @@
                 {{ __('Produkty') }}    
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('meals.index')" :active="request()->routeIs('meals.*')">
-                Posiłki
+                {{ __('Posiłki') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('daily-summary.index')" :active="request()->routeIs('daily-summary.index')">
                 {{ __('Podsumowanie dzienne') }}    
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('weight-entries.index')" :active="request()->routeIs('weight-entries.*')">
+                {{ __('Masa ciała') }}
             </x-responsive-nav-link>
         </div>
 
