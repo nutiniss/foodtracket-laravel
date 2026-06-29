@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Meal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class MealController extends Controller
 {
@@ -45,7 +46,15 @@ class MealController extends Controller
             abort(403);
         }
 
-        return view('meals.show', compact('meal'));
+        $meal->load('items.product');
+
+        $products = Product::query()
+            ->where('status', 'approved')
+            ->orWhere('user_id', Auth::id())
+            ->orderBy('name')
+            ->get();
+
+        return view('meals.show', compact('meal', 'products'));
     }
 
     public function edit(Meal $meal)
