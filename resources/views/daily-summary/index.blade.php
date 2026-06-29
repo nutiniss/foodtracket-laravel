@@ -82,6 +82,11 @@
 
             <div class="bg-white p-6 shadow-sm sm:rounded-lg">
                 <h3 class="text-lg font-semibold mb-4">Posiłki z dnia {{ $date }}</h3>
+                @if ($hasPlanForDate)
+                    <p class="mb-4 text-sm text-gray-600">
+                        Dla tego dnia istnieje plan posiłków. W podsumowaniu widoczne są tylko posiłki oznaczone jako zjedzone.
+                    </p>
+                @endif
 
                 @forelse ($meals as $meal)
                     <div class="border-b py-4">
@@ -90,9 +95,22 @@
                                 <h4 class="font-semibold">
                                     {{ $meal->meal_type }} - {{ $meal->name ?? 'Bez nazwy' }}
                                 </h4>
-                                <p class="text-sm text-gray-500">
-                                    {{ $meal->meal_date }}
-                                </p>
+
+                                <div class="flex gap-2 items-center mt-1">
+                                    <p class="text-sm text-gray-500">
+                                        {{ $meal->meal_date }}
+                                    </p>
+
+                                    @if ($meal->is_planned)
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                            Z planu
+                                        </span>
+                                    @else
+                                        <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs">
+                                            Spoza planu
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
 
                             <a href="{{ route('meals.show', $meal) }}" class="text-blue-600">

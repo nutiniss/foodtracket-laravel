@@ -11,6 +11,16 @@ class Meal extends Model
         'meal_date',
         'meal_type',
         'name',
+        'is_planned',
+        'is_eaten',
+        'eaten_at',
+    ];
+
+    protected $casts = [
+        'meal_date' => 'date',
+        'is_planned' => 'boolean',
+        'is_eaten' => 'boolean',
+        'eaten_at' => 'datetime',
     ];
 
     public function user()

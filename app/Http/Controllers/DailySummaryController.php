@@ -15,8 +15,14 @@ class DailySummaryController extends Controller
         $meals = Meal::with('items.product')
             ->where('user_id', Auth::id())
             ->whereDate('meal_date', $date)
+            ->where('is_eaten', true)
             ->orderBy('meal_type')
             ->get();
+
+        $hasPlanForDate = Meal::where('user_id', Auth::id())
+            ->whereDate('meal_date', $date)
+            ->where('is_planned', true)
+            ->exists();
 
         $items = $meals->flatMap->items;
 
@@ -40,7 +46,8 @@ class DailySummaryController extends Controller
             'totalFat',
             'totalCarbs',
             'dailyGoal',
-            'goalPercent'
+            'goalPercent',
+            'hasPlanForDate'
         ));
     }
 }

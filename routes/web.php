@@ -9,6 +9,7 @@ use App\Http\Controllers\WeightEntryController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecipeItemController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MealPlannerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,6 +52,21 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/admin/recipes/{recipe}/reject', [AdminController::class, 'rejectRecipe'])
         ->name('admin.recipes.reject');
+        
+    Route::get('/meal-planner', [MealPlannerController::class, 'index'])
+        ->name('meal-planner.index');
+
+    Route::get('/meal-planner/create', [MealPlannerController::class, 'create'])
+        ->name('meal-planner.create');
+
+    Route::post('/meal-planner', [MealPlannerController::class, 'store'])
+        ->name('meal-planner.store');
+
+    Route::patch('/meal-planner/{meal}/eaten', [MealPlannerController::class, 'markAsEaten'])
+        ->name('meal-planner.eaten');
+
+    Route::patch('/meal-planner/{meal}/uneaten', [MealPlannerController::class, 'markAsUneaten'])
+        ->name('meal-planner.uneaten');
 });
 
 require __DIR__.'/auth.php';

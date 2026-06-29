@@ -32,6 +32,9 @@ class MealController extends Controller
         ]);
 
         $validated['user_id'] = Auth::id();
+        $validated['is_planned'] = false;
+        $validated['is_eaten'] = true;
+        $validated['eaten_at'] = now();
 
         Meal::create($validated);
 

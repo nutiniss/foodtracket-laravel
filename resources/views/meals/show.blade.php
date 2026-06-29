@@ -18,6 +18,47 @@
                 <p><strong>Data:</strong> {{ $meal->meal_date }}</p>
                 <p><strong>Typ:</strong> {{ $meal->meal_type }}</p>
                 <p><strong>Nazwa:</strong> {{ $meal->name ?? '-' }}</p>
+                <p>
+                    <strong>Źródło:</strong>
+                    @if ($meal->is_planned)
+                        Z planu
+                    @else
+                        Spoza planu
+                    @endif
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    @if ($meal->is_eaten)
+                        Zjedzony
+                    @else
+                        Zaplanowany, jeszcze niezjedzony
+                    @endif
+                </p>
+
+                @if ($meal->is_planned)
+                    <div class="mt-4">
+                        @if (! $meal->is_eaten)
+                            <form method="POST" action="{{ route('meal-planner.eaten', $meal) }}">
+                                @csrf
+                                @method('PATCH')
+
+                                <button class="px-4 py-2 bg-green-600 text-white rounded">
+                                    Oznacz jako zjedzony
+                                </button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('meal-planner.uneaten', $meal) }}">
+                                @csrf
+                                @method('PATCH')
+
+                                <button class="px-4 py-2 bg-yellow-600 text-white rounded">
+                                    Cofnij oznaczenie jako zjedzony
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                @endif
             </div>
 
             <div class="bg-white p-6 shadow-sm sm:rounded-lg mb-6">
