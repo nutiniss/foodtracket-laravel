@@ -4,6 +4,7 @@ use App\Http\Controllers\MealController;
 use App\Http\Controllers\MealItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DailySummaryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('meals', MealController::class);
     Route::post('/meals/{meal}/items', [MealItemController::class, 'store'])->name('meal-items.store');
     Route::delete('/meal-items/{mealItem}', [MealItemController::class, 'destroy'])->name('meal-items.destroy');
+    Route::get('/daily-summary', [DailySummaryController::class, 'index'])->name('daily-summary.index');
 });
 
 require __DIR__.'/auth.php';

@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('meals.index')" :active="request()->routeIs('meals.*')">
                         {{ __('Posiłki') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('daily-summary.index')" :active="request()->routeIs('daily-summary.index')">
+                        {{ __('Podsumowanie dzienne') }}    
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -81,6 +84,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('meals.index')" :active="request()->routeIs('meals.*')">
                 Posiłki
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('daily-summary.index')" :active="request()->routeIs('daily-summary.index')">
+                {{ __('Podsumowanie dzienne') }}    
             </x-responsive-nav-link>
         </div>
 
