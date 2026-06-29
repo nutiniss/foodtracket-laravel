@@ -25,6 +25,12 @@
                     -
                     {{ $shoppingList->end_date->format('Y-m-d') }}
                 </p>
+
+                <div class="mt-4">
+                    <a href="{{ route('shopping-lists.pdf', $shoppingList) }}" class="px-4 py-2 bg-blue-600 text-white rounded">
+                        Pobierz PDF
+                    </a>
+                </div>
             </div>
 
             <div class="bg-white p-6 shadow-sm sm:rounded-lg">

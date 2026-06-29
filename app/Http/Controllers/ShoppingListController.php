@@ -7,6 +7,7 @@ use App\Models\ShoppingList;
 use App\Models\ShoppingListItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ShoppingListController extends Controller
 {
@@ -87,5 +88,22 @@ class ShoppingListController extends Controller
         return redirect()
             ->route('shopping-lists.index')
             ->with('success', 'Lista zakupów została usunięta.');
+    }
+
+    public function downloadPdf(ShoppingList $shoppingList)
+    {
+        if ($shoppingList->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $shoppingList->load('items.product');
+
+        $pdf = Pdf::loadView('shopping-lists.pdf', [
+            'shoppingList' => $shoppingList,
+        ]);
+
+        $fileName = 'lista-zakupow-' . $shoppingList->id . '.pdf';
+
+        return $pdf->download($fileName);
     }
 }

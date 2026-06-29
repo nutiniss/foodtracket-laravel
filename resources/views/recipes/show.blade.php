@@ -93,7 +93,28 @@
                         @forelse ($recipe->items as $item)
                             <tr class="border-t">
                                 <td class="p-3">{{ $item->product->name }}</td>
-                                <td class="p-3">{{ $item->grams }} g</td>
+                                <td class="p-3">
+                                    @if ($recipe->user_id === auth()->id() || auth()->user()->role === 'admin')
+                                        <form method="POST" action="{{ route('recipe-items.update', $item) }}" class="flex gap-2 items-center">
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                name="grams"
+                                                value="{{ $item->grams }}"
+                                                class="w-24 border-gray-300 rounded-md shadow-sm text-sm"
+                                            >
+
+                                            <button class="px-2 py-1 bg-blue-600 text-white rounded text-sm">
+                                                Zapisz
+                                            </button>
+                                        </form>
+                                    @else
+                                        {{ $item->grams }} g
+                                    @endif
+                                </td>
                                 <td class="p-3">{{ number_format($item->calories, 2) }}</td>
                                 <td class="p-3">{{ number_format($item->protein, 2) }}</td>
                                 <td class="p-3">{{ number_format($item->fat, 2) }}</td>

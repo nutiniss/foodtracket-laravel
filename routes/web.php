@@ -27,20 +27,39 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 
     Route::resource('products', ProductController::class);
+
     Route::resource('meals', MealController::class);
-    Route::post('/meals/{meal}/items', [MealItemController::class, 'store'])->name('meal-items.store');
+
+    Route::post('/meals/{meal}/items', [MealItemController::class, 'store'])
+        ->name('meal-items.store');
+
+    Route::patch('/meal-items/{mealItem}', [MealItemController::class, 'update'])
+        ->name('meal-items.update');
+
     Route::delete('/meal-items/{mealItem}', [MealItemController::class, 'destroy'])->name('meal-items.destroy');
-    Route::get('/daily-summary', [DailySummaryController::class, 'index'])->name('daily-summary.index');
+
+    Route::get('/daily-summary', [DailySummaryController::class, 'index'])
+        ->name('daily-summary.index');
+
     Route::resource('weight-entries', WeightEntryController::class);
+
     Route::resource('recipes', RecipeController::class);
 
     Route::post('/recipes/{recipe}/items', [RecipeItemController::class, 'store'])
         ->name('recipe-items.store');
+
+    Route::patch('/recipe-items/{recipeItem}', [RecipeItemController::class, 'update'])
+        ->name('recipe-items.update');
 
     Route::delete('/recipe-items/{recipeItem}', [RecipeItemController::class, 'destroy'])
         ->name('recipe-items.destroy');
@@ -58,7 +77,7 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/admin/recipes/{recipe}/reject', [AdminController::class, 'rejectRecipe'])
         ->name('admin.recipes.reject');
-        
+
     Route::get('/admin/users', [AdminController::class, 'users'])
         ->name('admin.users.index');
 
@@ -79,6 +98,9 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/meal-planner/{meal}/uneaten', [MealPlannerController::class, 'markAsUneaten'])
         ->name('meal-planner.uneaten');
+
+    Route::get('/shopping-lists/{shoppingList}/pdf', [ShoppingListController::class, 'downloadPdf'])
+        ->name('shopping-lists.pdf');
 
     Route::resource('shopping-lists', ShoppingListController::class)
        ->only(['index', 'create', 'store', 'show', 'destroy']);

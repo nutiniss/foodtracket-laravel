@@ -42,4 +42,21 @@ class MealItemController extends Controller
             ->route('meals.show', $meal)
             ->with('success', 'Produkt został usunięty z posiłku.');
     }
+
+    public function update(Request $request, MealItem $mealItem)
+    {
+        if ($mealItem->meal->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'grams' => ['required', 'numeric', 'min:0.01'],
+        ]);
+
+        $mealItem->update($validated);
+
+        return redirect()
+            ->route('meals.show', $mealItem->meal)
+            ->with('success', 'Gramatura produktu została zaktualizowana.');
+    }
 }
