@@ -14,6 +14,12 @@
                 </div>
             @endif
 
+            <div class="mb-6">
+                <a href="{{ route('admin.users.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded">
+                    Zarządzaj użytkownikami
+                </a>
+            </div>
+
             <div class="bg-white p-6 shadow-sm sm:rounded-lg mb-6">
                 <h3 class="text-lg font-semibold mb-4">Produkty oczekujące na akceptację</h3>
 

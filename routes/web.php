@@ -58,6 +58,12 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/admin/recipes/{recipe}/reject', [AdminController::class, 'rejectRecipe'])
         ->name('admin.recipes.reject');
+        
+    Route::get('/admin/users', [AdminController::class, 'users'])
+        ->name('admin.users.index');
+
+    Route::patch('/admin/users/{user}/role', [AdminController::class, 'updateUserRole'])
+        ->name('admin.users.update-role');
 
     Route::get('/meal-planner', [MealPlannerController::class, 'index'])
         ->name('meal-planner.index');
