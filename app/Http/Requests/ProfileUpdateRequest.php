@@ -26,6 +26,8 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'daily_calorie_goal' => ['nullable', 'integer', 'min:1', 'max:10000'],
+            'target_weight' => ['nullable', 'numeric', 'min:1', 'max:500'],
         ];
     }
 }

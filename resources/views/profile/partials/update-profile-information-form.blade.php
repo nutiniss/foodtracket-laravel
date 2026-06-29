@@ -46,6 +46,34 @@
                 </div>
             @endif
         </div>
+        <div>
+            <x-input-label for="daily_calorie_goal" value="Dzienny cel kalorii" />
+            <x-text-input
+                id="daily_calorie_goal"
+                name="daily_calorie_goal"
+                type="number"
+                class="mt-1 block w-full"
+                :value="old('daily_calorie_goal', $user->daily_calorie_goal)"
+                min="1"
+                max="10000"
+            />
+            <x-input-error class="mt-2" :messages="$errors->get('daily_calorie_goal')" />
+        </div>
+
+        <div>
+            <x-input-label for="target_weight" value="Docelowa masa ciała (kg)" />
+            <x-text-input
+                id="target_weight"
+                name="target_weight"
+                type="number"
+                step="0.01"
+                class="mt-1 block w-full"
+                :value="old('target_weight', $user->target_weight)"
+                min="1"
+                max="500"
+            />
+            <x-input-error class="mt-2" :messages="$errors->get('target_weight')" />
+        </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
